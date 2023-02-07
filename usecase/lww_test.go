@@ -74,7 +74,7 @@ func TestLWW_MergeSameTime(t *testing.T) {
 	}
 	dict[key2] = LWWValue{
 		Value:     value2,
-		Timestamp: timetest2,
+		Timestamp: timetest1,
 	}
 	type fields struct {
 		dict map[string]LWWValue
@@ -90,19 +90,19 @@ func TestLWW_MergeSameTime(t *testing.T) {
 		want   []LWWResp
 	}{
 		{
-			name:   "merge different timestamp",
+			name:   "merge same timestamp",
 			fields: fields{dict: dict},
 			args:   args{key1: key1, key2: key2},
 			want: []LWWResp{
 				{
 					Key:       key1,
-					Value:     value2,
-					Timestamp: timetest2.Format(time.RFC1123),
+					Value:     value1,
+					Timestamp: timetest1.Format(time.RFC1123),
 				},
 				{
 					Key:       key2,
-					Value:     value2,
-					Timestamp: timetest2.Format(time.RFC1123),
+					Value:     value1,
+					Timestamp: timetest1.Format(time.RFC1123),
 				},
 			},
 		},
